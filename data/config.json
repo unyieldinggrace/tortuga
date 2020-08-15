@@ -1,0 +1,6 @@
+{
+  "baseURL": "http://store.beingbiblical.com",
+  "DBPath": "data/tortuga.db",
+  "ShowDebugOutput": false,
+  "NanoAddress": "nano_1pkhz7jjfda3gsky45jk5oeodmid87fsyecqrgopxhnhuzjrurwd8fdxcqtg"
+}

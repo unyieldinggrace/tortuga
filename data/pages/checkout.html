@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ProductTitle}} (Checkout)</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" />
+	<link rel="stylesheet" href="{{{BaseURL}}}/static/common.css" />
+</head>
+<body>
+	<div id="container">
+		{{{PaymentArea}}}
+		<div id="product-description">
+			<p>
+				<span id="product-title">{{ProductTitle}}</span> <span id="product-price">{{DisplayPrice}}</span>
+			</p>
+			<p>
+				<img src="{{{ProductImageURL}}}" id="product-image"  alt="Product Image"/>
+			</p>
+		</div>
+		{{{Scripts}}}
+		<script>
+			(function() {
+				document.title = "{{ProductTitle}}";
+			})();
+		</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+html, body {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    /*width: 60%;*/
+    /*margin-left: 20%;*/
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: 1px solid lightgrey;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+}
+
+#product-description {
+    text-align: center;
+    font-family: "Lato", serif;
+    /*font-weight: bold;*/
+    font-size: 1.4rem;
+}
+
+#product-description table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#product-description td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 0.5rem;
+}
+
+#product-title, #product-price {
+    font-weight: bold;
+}
+
+#product-description li {
+    margin-bottom: 1rem;
+}
+
+#product-image {
+    max-width: 100%;
+}
+
+@media screen and (max-width: 380px) {
+    #container {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 1rem;
+        border: none;
+    }
+
+    #product-description {
+        font-size: 1.0rem;
+    }
+}
+
+p.body-text {
+    font-size: 1rem;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -1,0 +1,55 @@
+<script src="https://brainblocks.io/brainblocks.min.js"></script>
+<script>
+	// Render the Nano button
+
+	brainblocks.Button.render({
+
+		style: {
+			expanded: true,
+			size: 'responsive'
+		},
+
+		// Pass in payment options
+
+		payment: {
+			destination: "{{NanoAddress}}",
+			currency:    "rai",
+			amount:      "{{RaiAmount}}"
+		},
+
+		// Handle successful payments
+
+		onPayment: function(data) {
+			var url = '{{{SuccessURL}}}';
+
+			//~ if (query['urls.method'] === 'post') {
+			//~ return post(url, { token: data.token }, 'POST');
+			//~ }
+
+			if (url.indexOf('?') !== -1) {
+				url += '&';
+			} else {
+				url += '?';
+			}
+
+			url += ('token=' + data.token);
+
+			window.location = url;
+		}
+
+	}, '#nano-button');
+</script>
+<style>
+    #nano-button {
+        display: inline-block;
+        min-width: 320px;
+    }
+
+    @media screen and (max-width: 380px) {
+        #nano-button {
+            display: inline-block;
+            min-width: 200px;
+            width: 80%;
+        }
+    }
+</style>

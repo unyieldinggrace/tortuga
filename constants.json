@@ -1,0 +1,6 @@
+{
+  "COIN_TYPE_BTC": "bitcoin",
+  "COIN_TYPE_BCH": "bitcoin-cash",
+  "COIN_TYPE_XMR": "monero",
+  "COIN_TYPE_NANO": "nano"
+}
