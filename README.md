@@ -11,6 +11,8 @@ Tortuga is a lightweight payment gateway, written using [ExpressJS](http://expre
 ### Planned Features
 
 - Support for more cryptocurrencies (Bitcoin Cash, Monero, Bitcoin).
+- Discount codes.
+- Maybe a UI for managing available products.
 
 ### How to Use
 
