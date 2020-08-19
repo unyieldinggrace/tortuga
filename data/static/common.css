@@ -63,9 +63,20 @@ html, body {
     }
 }
 
-p.body-text {
-    font-size: 1rem;
-    max-width: 32rem;
+.qr-container {
     margin-left: auto;
     margin-right: auto;
+    font-family: "Lato", serif;
+}
+
+.qr-description {
+    font-size: 0.8rem;
+    max-width: 26rem;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5rem;
+}
+
+.no-autodetect-message {
+    margin-top: 2rem;
 }
