@@ -10,6 +10,9 @@ app.use('/static', express.static(path.join(__dirname, 'data/static')));
 
 const sendErrorPageOnCatch = (res, e) => {
 	let errorPageBuilder = factory.GetErrorPageBuilder();
+	console.log(e)
+	console.log(e.stack);
+
 	res.send(errorPageBuilder.GetErrorPageMarkup(e));
 };
 

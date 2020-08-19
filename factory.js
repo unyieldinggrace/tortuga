@@ -83,7 +83,11 @@ class Factory {
 		}
 
 		if (!this.checkoutPageBuilder) {
-			this.checkoutPageBuilder = new CheckoutPageBuilder(
+			this.checkoutPageBuilder = {};
+		}
+
+		if (!this.checkoutPageBuilder[coinType]) {
+			this.checkoutPageBuilder[coinType] = new CheckoutPageBuilder(
 				this.GetProductRepository(),
 				this.GetOrderRepository(),
 				this.GetExchangeRateRepository(),
@@ -93,7 +97,7 @@ class Factory {
 			);
 		}
 
-		return this.checkoutPageBuilder;
+		return this.checkoutPageBuilder[coinType];
 	}
 
 	GetDownloadPageBuilder() {
@@ -142,10 +146,14 @@ class Factory {
 		}
 
 		if (!this.paymentVerifier) {
-			this.paymentVerifier = new PaymentVerifier(this.GetDownloadManager(), coinSpecificPaymentVerifier);
+			this.paymentVerifier = {};
 		}
 
-		return this.paymentVerifier;
+		if (!this.paymentVerifier[coinType]) {
+			this.paymentVerifier[coinType] = new PaymentVerifier(this.GetDownloadManager(), coinSpecificPaymentVerifier);
+		}
+
+		return this.paymentVerifier[coinType];
 	}
 
 	GetBrainBlocksPaymentVerifier() {
