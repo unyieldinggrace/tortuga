@@ -11,7 +11,7 @@ class BrainBlocksMarkupGenerator {
 	}
 
 	GetScriptsSnippet(order, product) {
-		let scripts = fs.readFileSync(path.resolve('domain/NANO/nanocheckoutscripts.html')).toString();
+		let scripts = fs.readFileSync(path.resolve('domain/NANO/nanocheckoutscripts.mustache')).toString();
 		return Mustache.render(scripts, {
 			NanoAddress: config.NanoAddress,
 			RaiAmount: Math.round(order.Price * 1000000),
@@ -19,8 +19,12 @@ class BrainBlocksMarkupGenerator {
 		});
 	}
 
-	GetPaymentAreaSnippet() {
+	GetPaymentAreaSnippet(order, product) {
 		return '<div id="nano-button"></div>';
+	}
+
+	RoundOffPrice(price) {
+		return price;
 	}
 
 }

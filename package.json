@@ -11,8 +11,10 @@
   "dependencies": {
     "axios": "^0.19.2",
     "better-sqlite3": "^7.1.0",
+    "bitbox-sdk": "^8.11.2",
     "express": "^4.17.1",
     "mustache": "^4.0.1",
+    "qrcode-generator": "^1.4.4",
     "sha1": "^1.1.1"
   }
 }

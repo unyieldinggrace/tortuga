@@ -1,0 +1,52 @@
+<script src="https://unpkg.com/bchaddrjs@0.4.9/dist/bchaddrjs-0.4.9.min.js"></script>
+<script>
+	let bchWebSocket = new WebSocket('wss://ws.blockchain.info/bch/inv')
+	if (!bchWebSocket) {
+		console.log('Socket empty... there will be no autodetection :(');
+	}
+
+	bchWebSocket.onopen = () => {
+		bchWebSocket.send(JSON.stringify({"op":"unconfirmed_sub"}));
+		bchWebSocket.send(JSON.stringify({"op":"blocks_sub"}));
+	};
+
+	let totalPaid = 0;
+
+	let handleTxNotification = (message) => {
+		let txData = JSON.parse(message.data);
+		if (txData.op !== 'utx') {
+			return;
+		}
+
+		let outputs = txData.x.out.map((output) => {
+			return {
+				'Amount': (output.value / 100000000),
+				'RecipientAddress': output.addr ? bchaddr.toCashAddress(output.addr) : output.addr,
+				'OutputNumber': output.n
+			};
+		});
+
+		for (let output of outputs) {
+			if (output.RecipientAddress === "{{PaymentAddress}}") {
+				totalPaid += output.Amount;
+			}
+		}
+
+		if (totalPaid >= {{ExpectedAmount}}) {
+			window.location = "{{{VerifyURL}}}";
+		}
+
+		console.log({
+			'TXHash': txData.x.hash,
+			'Outputs': outputs
+		});
+	};
+
+	bchWebSocket.onmessage = handleTxNotification;
+
+	bchWebSocket.onerror = (error) => {
+		console.log(error);
+	};
+</script>
+<style>
+</style>

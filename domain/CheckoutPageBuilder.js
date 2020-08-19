@@ -4,21 +4,22 @@ const Mustache = require('mustache');
 const path = require('path');
 
 class CheckoutPageBuilder {
-	constructor(productRepository, orderRepository, exchangeRateRepository, debugLogger, coinSpecificMarkupGenerator) {
+	constructor(productRepository, orderRepository, exchangeRateRepository, debugLogger, coinSpecificMarkupGenerator, coinSpecificAddressRepository) {
 		this.productRepository = productRepository;
 		this.orderRepository = orderRepository;
 		this.exchangeRateRepository = exchangeRateRepository;
 		this.debugLogger = debugLogger;
 		this.coinSpecificMarkupGenerator = coinSpecificMarkupGenerator;
+		this.coinSpecificAddressRepository = coinSpecificAddressRepository;
 	}
 
 	async GetCheckoutPageMarkup(productShortCode) {
 		let product = this.getProduct(productShortCode);
 		let order = await this.createOrder(product);
 
-		return Mustache.render(fs.readFileSync(path.resolve('data/pages/checkout.html')).toString(), {
+		return Mustache.render(fs.readFileSync(path.resolve('data/pages/checkout.mustache')).toString(), {
 			Scripts: this.coinSpecificMarkupGenerator.GetScriptsSnippet(order, product),
-			PaymentArea: this.coinSpecificMarkupGenerator.GetPaymentAreaSnippet(),
+			PaymentArea: this.coinSpecificMarkupGenerator.GetPaymentAreaSnippet(order, product),
 			ProductTitle: product.Name,
 			DisplayPrice: this.getDisplayPrice(product),
 			ProductImageURL: config.baseURL+'/static/'+product.ImageURL,
@@ -39,16 +40,18 @@ class CheckoutPageBuilder {
 		let paymentCurrency = this.coinSpecificMarkupGenerator.GetCurrency();
 
 		let exchangeRate = await this.exchangeRateRepository.GetExchangeRate(product.Currency, paymentCurrency);
-		let orderPrice = product.Price / exchangeRate;
+		let orderPrice = this.coinSpecificMarkupGenerator.RoundOffPrice(product.Price / exchangeRate);
+		let address = this.coinSpecificAddressRepository.GetNextAddress();
 
 		this.debugLogger.Log({
 			'ProductPrice': product.Price,
 			'ProductCurrency': product.Currency,
 			'ExchangeRate': exchangeRate,
-			'OrderPrice': orderPrice
+			'OrderPrice': orderPrice,
+			'Address': address
 		});
 
-		return this.orderRepository.CreateOrder(product.ProductID, this.coinSpecificMarkupGenerator.GetCurrency(), orderPrice);
+		return this.orderRepository.CreateOrder(product.ProductID, this.coinSpecificMarkupGenerator.GetCurrency(), orderPrice, address);
 	}
 
 	getDisplayPrice(product) {

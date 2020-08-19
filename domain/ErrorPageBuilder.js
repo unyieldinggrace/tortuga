@@ -5,7 +5,7 @@ const path = require('path');
 
 class ErrorPageBuilder {
 	GetErrorPageMarkup(errorMessage) {
-		return Mustache.render(fs.readFileSync(path.resolve('data/pages/error.html')).toString(), {
+		return Mustache.render(fs.readFileSync(path.resolve('data/pages/error.mustache')).toString(), {
 			ErrorMessage: errorMessage,
 			BaseURL: config.baseURL
 		});

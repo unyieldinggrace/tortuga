@@ -16,7 +16,7 @@ class DownloadPageBuilder {
 		let order = this.orderRepository.GetOrder(downloadLogEntry.OrderID);
 		let product = this.productRepository.GetProduct(order.ProductID);
 
-		return Mustache.render(fs.readFileSync(path.resolve('data/pages/download.html')).toString(), {
+		return Mustache.render(fs.readFileSync(path.resolve('data/pages/download.mustache')).toString(), {
 			ProductTitle: product.Name,
 			ProductImageURL: config.baseURL+'/static/'+product.ImageURL,
 			DownloadURL: config.baseURL+'/download/'+downloadCode,

@@ -17,6 +17,12 @@ const DownloadManager = require('./domain/DownloadManager');
 
 const BrainBlocksMarkupGenerator = require('./domain/NANO/BrainBlocksMarkupGenerator');
 const BrainBlocksPaymentVerifier = require('./domain/NANO/BrainBlocksPaymentVerifier');
+const NanoAddressRepository = require("./domain/NANO/NanoAddressRepository");
+
+const BITBOXSDK = require('bitbox-sdk').BITBOX;
+const BitcoinCashAddressRepository = require("./domain/BCH/BitcoinCashAddressRepository");
+const BitcoinCashPaymentVerifier = require("./domain/BCH/BitcoinCashPaymentVerifier");
+const BitcoinCashMarkupGenerator = require("./domain/BCH/BitcoinCashMarkupGenerator");
 
 class Factory {
 	GetDebugLogger() {
@@ -61,9 +67,16 @@ class Factory {
 
 	GetCheckoutPageBuilder(coinType) {
 		let coinSpecificMarkupGenerator;
+		let coinSpecificAddressRepository;
+
 		switch (coinType) {
 			case constants.COIN_TYPE_NANO:
 				coinSpecificMarkupGenerator = this.GetNanoCheckoutMarkupGenerator();
+				coinSpecificAddressRepository = this.GetNanoAddressRepository();
+				break;
+			case constants.COIN_TYPE_BCH:
+				coinSpecificMarkupGenerator = this.GetBitcoinCashCheckoutMarkupGenerator();
+				coinSpecificAddressRepository = this.GetBitcoinCashAddressRepository();
 				break;
 			default:
 				throw 'Coin type "' + coinType + '" not recognised.';
@@ -75,7 +88,8 @@ class Factory {
 				this.GetOrderRepository(),
 				this.GetExchangeRateRepository(),
 				this.GetDebugLogger(),
-				coinSpecificMarkupGenerator
+				coinSpecificMarkupGenerator,
+				coinSpecificAddressRepository
 			);
 		}
 
@@ -106,11 +120,22 @@ class Factory {
 		return this.brainBlocksMarkupGenerator;
 	}
 
+	GetNanoAddressRepository() {
+		if (!this.nanoAddressRepository) {
+			this.nanoAddressRepository = new NanoAddressRepository();
+		}
+
+		return this.nanoAddressRepository;
+	}
+
 	GetPaymentVerifier(coinType) {
 		let coinSpecificPaymentVerifier;
 		switch (coinType) {
 			case constants.COIN_TYPE_NANO:
 				coinSpecificPaymentVerifier = this.GetBrainBlocksPaymentVerifier();
+				break;
+			case constants.COIN_TYPE_BCH:
+				coinSpecificPaymentVerifier = this.GetBitcoinCashPaymentVerifier();
 				break;
 			default:
 				throw 'Coin type "' + coinType + '" not recognised.';
@@ -137,6 +162,38 @@ class Factory {
 		}
 
 		return this.downloadManager;
+	}
+
+	GetBitcoinCashPaymentVerifier() {
+		if (!this.bitcoinCashPaymentVerifier) {
+			this.bitcoinCashPaymentVerifier = new BitcoinCashPaymentVerifier(this.GetOrderRepository(), this.GetDebugLogger());
+		}
+
+		return this.bitcoinCashPaymentVerifier;
+	}
+
+	GetBitcoinCashAddressRepository() {
+		if (!this.bitcoinCashAddressRepository) {
+			this.bitcoinCashAddressRepository = new BitcoinCashAddressRepository(path.resolve(config.DBPath), this.GetDebugLogger(), this.GetBITBOX());
+		}
+
+		return this.bitcoinCashAddressRepository;
+	}
+
+	GetBitcoinCashCheckoutMarkupGenerator() {
+		if (!this.bitcoinCashCheckoutMarkupGenerator) {
+			this.bitcoinCashCheckoutMarkupGenerator = new BitcoinCashMarkupGenerator();
+		}
+
+		return this.bitcoinCashCheckoutMarkupGenerator;
+	}
+
+	GetBITBOX() {
+		if (!this.BITBOX) {
+			this.BITBOX = new BITBOXSDK({ restURL: `https://rest.bitcoin.com/v2/` });
+		}
+
+		return this.BITBOX;
 	}
 
 }

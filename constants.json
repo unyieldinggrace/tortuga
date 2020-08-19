@@ -2,5 +2,7 @@
   "COIN_TYPE_BTC": "bitcoin",
   "COIN_TYPE_BCH": "bitcoin-cash",
   "COIN_TYPE_XMR": "monero",
-  "COIN_TYPE_NANO": "nano"
+  "COIN_TYPE_NANO": "nano",
+
+  "MAX_BCH_PAYMENT_AMOUNT_DISCREPANCY": 0.00001
 }

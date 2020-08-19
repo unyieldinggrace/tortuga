@@ -11,13 +11,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # where available (npm@5+)
 # COPY ./package*.json ./
 COPY ./*.json ./
+
+RUN npm install
+
 COPY ./*.js ./
 COPY ./datamodel ./datamodel
 COPY ./domain ./domain
 COPY ./util ./util
 
-RUN npm install
-
 EXPOSE 3000
 CMD [ "node", "index.js" ]
-
