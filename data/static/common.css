@@ -80,3 +80,19 @@ html, body {
 .no-autodetect-message {
     margin-top: 2rem;
 }
+
+.qr-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.qr-image {
+    position: relative;
+}
+
+.qr-image-overlay {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+}

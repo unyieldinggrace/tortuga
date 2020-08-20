@@ -29,9 +29,13 @@ class BitcoinCashMarkupGenerator {
 
 		let dataURL = qr.createDataURL(4);
 		let verifyURL = this.getVerifyURL(order);
+		let paymentSuccessImage = config.baseURL+'/static/base/payment-success.png';
 
 		return `<div class="qr-container">
-	<img src="${dataURL}"  alt="Bitcoin Cash QR Code" class="qr-image" />
+	<div class="qr-image-container">
+		<img src="${dataURL}"  alt="Bitcoin Cash QR Code" class="qr-image" />
+		<div class="qr-image-overlay"><img src="${paymentSuccessImage}"></div>
+	</div>
 	<div class="qr-description">Scan here to pay ${order.Price} BCH to ${order.Address}</div>
 	<div class="no-autodetect-message">Payment not detected? Click <a href="${verifyURL}">here</a> to manually check.</div>
 </div>`;

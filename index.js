@@ -10,8 +10,11 @@ app.use('/static', express.static(path.join(__dirname, 'data/static')));
 
 const sendErrorPageOnCatch = (res, e) => {
 	let errorPageBuilder = factory.GetErrorPageBuilder();
+
+	let stackMessage = e.stack ? e.stack : "No stack trace available.";
+
 	console.log(e)
-	console.log(e.stack);
+	console.log(stackMessage);
 
 	res.send(errorPageBuilder.GetErrorPageMarkup(e));
 };
