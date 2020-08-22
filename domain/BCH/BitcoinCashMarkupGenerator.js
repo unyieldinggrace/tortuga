@@ -21,24 +21,14 @@ class BitcoinCashMarkupGenerator {
 	}
 
 	GetPaymentAreaSnippet(order, product) {
-		let typeNumber = 0;
-		let errorCorrectionLevel = 'M';
-		let qr = QR(typeNumber, errorCorrectionLevel);
-		qr.addData(order.Address+'?amount='+order.Price);
-		qr.make();
-
-		let dataURL = qr.createDataURL(4);
-		let verifyURL = this.getVerifyURL(order);
-		let paymentSuccessImage = config.baseURL+'/static/base/payment-success.png';
-
-		return `<div class="qr-container">
-	<div class="qr-image-container">
-		<img src="${dataURL}"  alt="Bitcoin Cash QR Code" class="qr-image" />
-		<div class="qr-image-overlay"><img src="${paymentSuccessImage}"></div>
-	</div>
-	<div class="qr-description">Scan here to pay ${order.Price} BCH to ${order.Address}</div>
-	<div class="no-autodetect-message">Payment not detected? Click <a href="${verifyURL}">here</a> to manually check.</div>
-</div>`;
+		let paymentArea = fs.readFileSync(path.resolve('domain/BCH/bitcoincashpaymentarea.mustache')).toString();
+		return Mustache.render(paymentArea, {
+			DataURL: this.getQRCodeDataURL(order),
+			VerifyURL: this.getVerifyURL(order),
+			PaymentSuccessImage: config.baseURL+'/static/base/payment-success.png',
+			PaymentAddress: order.Address,
+			ExpectedAmount: order.Price
+		});
 	}
 
 	RoundOffPrice(price) {
@@ -48,6 +38,16 @@ class BitcoinCashMarkupGenerator {
 
 	getVerifyURL(order) {
 		return config.baseURL+'/verify/bitcoin-cash/'+order.OrderID+'?BCHAddress='+order.Address;
+	}
+
+	getQRCodeDataURL(order) {
+		let typeNumber = 0;
+		let errorCorrectionLevel = 'M';
+		let qr = QR(typeNumber, errorCorrectionLevel);
+		qr.addData(order.Address+'?amount='+order.Price);
+		qr.make();
+
+		return qr.createDataURL(4);
 	}
 
 }

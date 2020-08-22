@@ -92,7 +92,11 @@ html, body {
 
 .qr-image-overlay {
     position: absolute;
-    display: none;
+    display: block;
     top: 0;
     left: 0;
+}
+
+.isHidden {
+    display: none !important;
 }

@@ -1,5 +1,11 @@
 <script src="https://unpkg.com/bchaddrjs@0.4.9/dist/bchaddrjs-0.4.9.min.js"></script>
 <script>
+	onPaymentSuccess = () => {
+		const node = document.querySelector('.qr-image-overlay');
+		node.classList.remove('isHidden');
+		window.location = "{{{VerifyURL}}}";
+	};
+
 	let bchWebSocket = new WebSocket('wss://ws.blockchain.info/bch/inv')
 	if (!bchWebSocket) {
 		console.log('Socket empty... there will be no autodetection :(');
@@ -33,7 +39,7 @@
 		}
 
 		if (totalPaid >= {{ExpectedAmount}}) {
-			window.location = "{{{VerifyURL}}}";
+			onPaymentSuccess();
 		}
 
 		console.log({
