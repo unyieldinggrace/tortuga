@@ -35,9 +35,10 @@ class BitcoinCashPaymentVerifier {
 
 	async verifyBitcoinCashPayment(order, BCHAddress) {
 		let result = await axios.get('https://rest.bitcoin.com/v2/address/details/'+BCHAddress);
+		let received = result.data.totalReceived;
 
-		if ((order.Price - result.totalReceived) > constants.MAX_BCH_PAYMENT_AMOUNT_DISCREPANCY) {
-			return 'Received amount of BCH was '+result.totalReceived+', but the quoted price was '+order.Price+'.'
+		if ((order.Price - received) > constants.MAX_BCH_PAYMENT_AMOUNT_DISCREPANCY) {
+			return 'Received amount of BCH was '+received+', but the quoted price was '+order.Price+'.'
 		}
 
 		return null;
