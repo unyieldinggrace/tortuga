@@ -27,7 +27,7 @@ The default content of the data directory has everything you need for a working 
 You will also need to add your own XPub key (for Bitcoin Cash) and/or your own Nano address in `data/config.json`
 
 Once deployed, you can test by going to http://your-domain/checkout/bitcoin-cash/your-product-code
-In the example data directory, the sample product is the preview of my book "Taxation is Slavery". You can buy the full book using this very payment gateway by going to https://beingbiblical.com/books/taxation-is-slavery.
+In the example data directory, the sample product is the preview of my book _Taxation is Slavery_.
 
 ### Philiosophy
 
