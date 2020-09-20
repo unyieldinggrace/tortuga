@@ -8,7 +8,7 @@ Want to see it in action? Click one of the crypto checkout links for my book, _T
 ### Current Features
 
 - Sell a digital file for Bitcoin Cash (BCH).
-- Sell a digital file for Nano (NANO/XRB).
+- ~Sell a digital file for Nano (NANO/XRB).~ (BrainBlocks is shutting down, so this is gone until we can re-implement it natively)
 - Customize the checkout, success and error pages (using mustache templates).
 - Limit the maximum number of times a file can be downloaded after paying (prevent buyers from sharing the download link).
 
